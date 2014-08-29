@@ -1,0 +1,67 @@
+
+<script type="text/javascript">
+  function initialize() {
+	
+	
+    /* Building the map */
+    var defaultCenter = new google.maps.LatLng(38.000, -96.943);
+    var defaultZoom = 5;
+    var myOptions = {
+        zoom: defaultZoom,
+        center: defaultCenter,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+
+    // Reset map to center when map is clicked
+    google.maps.event.addListener(map, 'click', function() {
+        map.setCenter(defaultCenter);
+        map.setZoom(defaultZoom);
+    });
+
+	//REPLACE WITH DATA
+	
+    //var latitudes = [43.165, 38.899, 41.879, 36.114, 38.000];
+    //var longitudes = [-77.618, -77.036, -87.643, -115.175, -96.943];
+    //var title = ["Rochester, NY","Washington, DC","Chicago, IL","Las Vegas, NV","Middle of the US"];
+    //var source = ["T","F","T","T","F"];
+
+    for (var i = 0; i < latitudes.length; i++) {
+        if (source[i]=="T"){
+            icon = "http://google-maps-icons.googlecode.com/files/text.png";
+        }
+        else {
+            icon = "http://google-maps-icons.googlecode.com/files/video.png";
+        } // end if
+        var location = new google.maps.LatLng(latitudes[i], longitudes[i]);
+        placeMarker(location, title[i], icon);
+    } // end for loop
+
+  } // end initialize()
+
+  function placeMarker(location, markerContent, icon) {
+
+    // create the marker
+    var marker = new google.maps.Marker({
+        position: location, 
+        map: map,
+        icon: icon
+    });
+
+    // build the infowindow
+    var infowindow = new google.maps.InfoWindow({
+        content: markerContent,
+    });
+
+    // on click: center on location, open infowindow
+    google.maps.event.addListener(marker, 'click', function() {
+        map.setCenter(location);
+//        map.setZoom(8);
+        infowindow.open(map,marker);
+    });
+
+  } // end placeMarker
+
+initialize();
+</script>
